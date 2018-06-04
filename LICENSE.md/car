@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,user-scalable=no">
+<meta charset="UTF-8">
+<title>购物车</title>
+<link href="css/css.css" rel="stylesheet">
+<link rel="stylesheet" href="css/fonts.css">
+<script>
+var pixRatio = 1/window.devicePixelRatio;
+var html = document.documentElement;
+document.write('<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale='+ pixRatio +',minimum-scale='+ pixRatio +',maximum-scale='+ pixRatio +'">');
+html.style.fontSize = html.clientWidth/25 + 'px';
+</script>
+</head>
+<body>
+<header class="header">
+    <p class="backBtn">
+        <span class="icon icon-Return"></span>&nbsp;
+        <a href="javascript:history.go(-1);location.reload()">返回</a>
+    </p>
+
+    <h1 class="logo">购物车</h1>
+    <p class="signOut">
+      <span class="icon icon-Magnifier" onClick="location.href='search.html'"></span>
+    </p>
+</header>
+<section class="wrap">
+    <section class="car">
+        <div class="item">
+           <p class="set">
+                <input id="" type="checkbox" name="checkbox" >
+                <label for=""></label>
+           </p>
+           <p>
+               <img src="img/goods/1.jpg">
+           </p>
+           <p>
+               <span>夏季可爱防滑拖鞋...</span>
+               <span>粉色+36码</span>
+               <span class="num">
+                    <input id="add" type="checkbox" name="">
+                    <label for="add"></label>
+                    <input id="number" type="checkbox" name="" class="decrement">
+                    <label for="number" data-attr="1"></label>
+                    <input id="reduction" type="checkbox" name="" class="increment">
+                    <label for="Reduction"></label>
+               </span>
+           </p>
+           <p>
+               <span class="pri"><em>20</em>CTB</span>
+               <span>&nbsp;</span>
+               <span class="icon icon-delete"></span>
+               <input type="hidden" value="" name="getPrices">
+           </p>
+        </div>
+        <hr class="hr">
+        <div class="item">
+           <p class="set">
+                <input id="" type="checkbox" name="checkbox" >
+                <label for=""></label>
+           </p>
+           <p>
+               <img src="img/goods/1.jpg">
+           </p>
+           <p>
+               <span>夏季可爱防滑拖鞋...</span>
+               <span>粉色+36码</span>
+               <span class="num">
+                    <input id="add" type="checkbox" name="">
+                    <label for="add"></label>
+                    <input id="number" type="checkbox" name="" class="decrement">
+                    <label for="number" data-attr="1"></label>
+                    <input id="reduction" type="checkbox" name="" class="increment">
+                    <label for="Reduction"></label>
+               </span>
+           </p>
+           <p>
+               <span class="pri"><em>30</em>CTB</span>
+               <span>&nbsp;</span>
+               <span class="icon icon-delete"></span>
+               <input type="hidden" value="" name="getPrices">
+           </p>
+        </div>
+        <hr class="hr">
+        <div class="item">
+           <p class="set">
+                <input id="" type="checkbox" name="checkbox" >
+                <label for=""></label>
+           </p>
+           <p>
+               <img src="img/goods/1.jpg">
+           </p>
+           <p>
+               <span>夏季可爱防滑拖鞋...</span>
+               <span>粉色+36码</span>
+               <span class="num">
+                    <input id="add" type="checkbox" name="">
+                    <label for="add"></label>
+                    <input id="number" type="checkbox" name="" class="decrement">
+                    <label for="number" data-attr="1"></label>
+                    <input id="reduction" type="checkbox" name="" class="increment">
+                    <label for="Reduction"></label>
+               </span>
+           </p>
+           <p>
+               <span class="pri"><em>40</em>CTB</span>
+               <span>&nbsp;</span>
+               <span class="icon icon-delete"></span>
+               <input type="hidden" value="" name="getPrices" class="hidden">
+           </p>
+        </div>
+        <section class="shoppingCar">
+            <span class="set">
+                 <input id="checkAll" type="checkbox">
+                 <label for="checkAll"></label>&nbsp;全选
+            </span>
+            <span class="addCars">合计：<em>35</em>CTB</span>
+            <span class="buys" onClick="location.href='sureOrder.html'">去兑换<font class="totalNum"></font></span>
+        </section>
+    </section>
+</section>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript">
+//删除商品确认弹出框
+$('.icon-delete').click(function () {
+     jqalert({
+         content:'<p>确认删除该商品吗？</p>',
+         notext:'取消',
+         yestext:'确定',
+         yeslink:'car.html'
+     })
+ })
+//给数量动态添加class和改变数值
+$('.num').each(function(i){
+    $(this).addClass("carAR"+(i));
+    $(this).attr("data-i",i);
+})
+//给单价添加各自class名
+$(".item").each(function(r){
+  $(this).addClass("itme"+r);
+  $(this).find("p").eq(3).find("span").eq(0).find("em").eq(0).addClass("carEm"+r);;
+});
+//动态改变id for
+$("input[name='checkbox']").each(function(i){
+    $(this).prop("id","check"+(i));
+    $(this).addClass("checkInput");
+    $(this).next().prop("for","check"+(i));
+});
+//计算每个产品的总价
+function getPrices(){
+    $("input[name='getPrices']").each(function(i){
+         $(this).val(parseFloat($(".carAR"+i).find("label").eq(1).attr("data-attr")*$(".carEm"+i).text()));
+    });
+}
+//计算所有选中商品总价
+function getTotalPrices(){
+    getPrices();
+    var totalPrice = 0;
+    $("input[name='checkbox']").each(function(i){
+        if($(this).prop("checked")){
+            totalPrice +=parseFloat( $("input[name='getPrices']").eq(i).val() );
+        }
+    });
+    $(".addCars").find("em").eq(0).text(totalPrice);
+    $(".totalNum").text("("+ $("input[name='checkbox']:checked").length + ")");
+}
+//初始化总价
+$(function(){
+  getTotalPrices();
+})
+//全选单选按钮
+$("#checkAll").change(function(){
+    $("input[name=checkbox]").prop("checked",$(this).prop("checked"));
+    $("#checkAll").prop("checked",$(this).prop("checked"));
+    getTotalPrices();
+})
+//每个单选按钮
+$("input[name=checkbox]").change(function(){
+  if(  $("input[name=checkbox]").length == $("input[name=checkbox]:checked").length  ){
+       $("#checkAll").prop("checked",true);
+  }else{
+       $("#checkAll").prop("checked",false);
+  }
+  getTotalPrices();
+});
+//购物车增减
+$(".num").each(function(i){
+     $(".carAR"+i+"  label:eq(0)").click(function () {
+        num = $(this).parent().children("label").eq(1).attr("data-attr");
+        if(num <=0 ){
+            num = 0;
+        }
+        $(this).parent().children("label").eq(1).attr("data-attr", --num);
+        getTotalPrices();
+     });
+     $(".carAR"+i+"  label:eq(2)").click(function () {
+        num = $(this).parent().children("label").eq(1).attr("data-attr");
+        if(num >= 10 ){
+            num = 10;
+        }
+        $(this).parent().children("label").eq(1).attr("data-attr", ++num);
+        getTotalPrices();
+     });
+});
+//删除单个商品
+       
+</script>
+</body>
+</html>
